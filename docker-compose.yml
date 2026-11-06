@@ -1,0 +1,24 @@
+services:
+  veil:
+    build: .
+    image: veil
+    restart: unless-stopped
+    ports:
+      - "${VEIL_PORT:-443}:443"
+      - "${VEIL_ACME_HTTP_PORT:-80}:80"
+    environment:
+      VEIL_PSK: ${VEIL_PSK:-}
+      VEIL_KEYS: ${VEIL_KEYS:-}
+      VEIL_LISTEN: ":443"
+      VEIL_CERT: /etc/veil/cert.pem
+      VEIL_KEY: /etc/veil/key.pem
+      VEIL_ACME_DOMAIN: ${VEIL_ACME_DOMAIN:-}
+      VEIL_ACME_ACCEPT: ${VEIL_ACME_ACCEPT:-}
+      VEIL_ACME_CACHE: /var/lib/veil/autocert
+    volumes:
+      - ${VEIL_CERT_DIR:-./certs}:/etc/veil:ro
+      - ${VEIL_KEYS_DIR:-./keys}:/etc/veil/keys:ro
+      - veil-acme:/var/lib/veil/autocert
+
+volumes:
+  veil-acme:

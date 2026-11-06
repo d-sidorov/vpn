@@ -1,0 +1,7 @@
+*.exe
+*.pem
+/bin/
+.env
+/certs/
+/client.json
+/dist/
